@@ -2,6 +2,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+# TODO follow up the bot example
 
 @app.route('/api/v1/submit', methods=['POST'])
 def submit_data():
