@@ -1,19 +1,3 @@
-# from flask import Flask, request
-#
-# app = Flask(__name__)
-#
-# # TODO try flask
-#
-# @app.route('/api/v1/submit', methods=['POST'])
-# def submit_data():
-#     data = request.get_json()
-#     return 'Data received: {}'.format(data)
-#
-#
-# if __name__ == '__main__':
-#     app.run(port=3000)
-#
-#
 import os
 from slack_bolt import App
 
@@ -24,11 +8,12 @@ app = App(
 )
 
 
-@app.message("hello")
-def echo(message, say):
-    print(message)
-    say(f"Yes <@{message['user']}>")
+@app.command("/chat")
+def echo(ack, say, command):
+    ack()
+    print(command)
+    say(f"{command['text']}")
 
 
 if __name__ == "__main__":
-    app.start(port=int(os.environ.get("PORT", 3000)))
+    app.start(port=3000)
