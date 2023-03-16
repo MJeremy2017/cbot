@@ -1,19 +1,28 @@
-import os
+import logging
 from slack_bolt import App
 
-# Initializes your app with your bot token and signing secret
-app = App(
-    token=os.environ.get("SLACK_BOT_TOKEN"),
-    signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
-)
+logging.basicConfig(level=logging.DEBUG)
+
+app = App()
+
+
+@app.middleware  # or app.use(log_request)
+def log_request(logger, body, next):
+    logger.debug(body)
+    return next()
 
 
 @app.command("/chat")
-def echo(ack, say, command):
-    ack()
-    print(command)
-    say(f"{command['text']}")
+def hello_command(ack, body):
+    user_id = body["user_id"]
+    ack(f"Hi <@{user_id}>!")
+
+
+@app.error
+def global_error_handler(error, body, logger):
+    logger.exception(error)
+    logger.info(body)
 
 
 if __name__ == "__main__":
-    app.start(port=3000)
+    app.start(3000)
