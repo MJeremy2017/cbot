@@ -13,9 +13,13 @@ def log_request(logger, body, next):
 
 
 @app.command("/chat")
-def hello_command(ack, body):
+def chatgpt(ack, say, body):
+    # TODO add gpt
+    print('s', say)
+    print('b', body)
     user_id = body["user_id"]
     ack(f"Hi <@{user_id}>!")
+
 
 
 @app.error
