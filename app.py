@@ -15,6 +15,7 @@ def log_request(logger, body, next):
     return next()
 
 
+# TODO wrap in docker
 @app.command("/chat")
 def chatgpt(ack, say, body):
     ack("Coffee is brewing ...")
